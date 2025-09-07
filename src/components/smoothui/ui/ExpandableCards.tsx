@@ -1,29 +1,30 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { Play } from "lucide-react"
-import { AnimatePresence, motion } from "motion/react"
+import { useEffect, useRef, useState } from "react";
+import { Play } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 
 export interface Card {
-  id: number
-  title: string
-  image: string
-  content: string
+  id: number;
+  title: string;
+  image: string;
+  content: string;
   author?: {
-    name: string
-    role: string
-    image: string
-  }
+    name: string;
+    role: string;
+    image: string;
+  };
 }
 
 const dreams =
-  "https://images.unsplash.com/photo-1536893827774-411e1dc7c902?=jpg&fit=crop&w=400&q=80&fit=max"
+  "https://images.unsplash.com/photo-1536893827774-411e1dc7c902?=jpg&fit=crop&w=400&q=80&fit=max";
 const fashion =
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?=jpg&fit=crop&w=400&q=80&fit=max"
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?=jpg&fit=crop&w=400&q=80&fit=max";
 const galleryart =
-  "https://images.unsplash.com/photo-1522878308970-972ec5eedc0d?=jpg&fit=crop&w=400&q=80&fit=max"
+  "https://images.unsplash.com/photo-1522878308970-972ec5eedc0d?=jpg&fit=crop&w=400&q=80&fit=max";
 const summer =
-  "https://images.unsplash.com/photo-1572246538688-3f326dca3951?=jpg&fit=crop&w=400&q=80&fit=max"
+  "https://images.unsplash.com/photo-1572246538688-3f326dca3951?=jpg&fit=crop&w=400&q=80&fit=max";
 
 const defaultCards: Card[] = [
   {
@@ -74,16 +75,16 @@ const defaultCards: Card[] = [
       image: "https://github.com/educlopez.png",
     },
   },
-]
+];
 
-const smoothEasing = [0.4, 0.0, 0.2, 1]
+const smoothEasing = [0.4, 0.0, 0.2, 1];
 
 export interface ExpandableCardsProps {
-  cards?: Card[]
-  selectedCard?: number | null
-  onSelect?: (id: number | null) => void
-  className?: string
-  cardClassName?: string
+  cards?: Card[];
+  selectedCard?: number | null;
+  onSelect?: (id: number | null) => void;
+  className?: string;
+  cardClassName?: string;
 }
 
 export default function ExpandableCards({
@@ -93,38 +94,38 @@ export default function ExpandableCards({
   className = "",
   cardClassName = "",
 }: ExpandableCardsProps) {
-  const [internalSelected, setInternalSelected] = useState<number | null>(null)
-  const scrollRef = useRef<HTMLDivElement>(null)
+  const [internalSelected, setInternalSelected] = useState<number | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const selectedCard =
-    controlledSelected !== undefined ? controlledSelected : internalSelected
+    controlledSelected !== undefined ? controlledSelected : internalSelected;
 
   useEffect(() => {
     if (scrollRef.current) {
-      const scrollWidth = scrollRef.current.scrollWidth
-      const clientWidth = scrollRef.current.clientWidth
-      scrollRef.current.scrollLeft = (scrollWidth - clientWidth) / 2
+      const scrollWidth = scrollRef.current.scrollWidth;
+      const clientWidth = scrollRef.current.clientWidth;
+      scrollRef.current.scrollLeft = (scrollWidth - clientWidth) / 2;
     }
-  }, [])
+  }, []);
 
   const handleCardClick = (id: number) => {
     if (selectedCard === id) {
-      if (onSelect) onSelect(null)
-      else setInternalSelected(null)
+      if (onSelect) onSelect(null);
+      else setInternalSelected(null);
     } else {
-      if (onSelect) onSelect(id)
-      else setInternalSelected(id)
+      if (onSelect) onSelect(id);
+      else setInternalSelected(id);
       // Center the clicked card in view
-      const cardElement = document.querySelector(`[data-card-id="${id}"]`)
+      const cardElement = document.querySelector(`[data-card-id="${id}"]`);
       if (cardElement) {
         cardElement.scrollIntoView({
           behavior: "smooth",
           block: "nearest",
           inline: "center",
-        })
+        });
       }
     }
-  }
+  };
 
   return (
     <div
@@ -157,7 +158,7 @@ export default function ExpandableCards({
             onClick={() => handleCardClick(card.id)}
           >
             <div className="relative h-full w-[200px]">
-              <img
+              <Image
                 src={card.image || "/placeholder.svg"}
                 alt={card.title}
                 width={200}
@@ -204,7 +205,7 @@ export default function ExpandableCards({
                     {card.author && (
                       <div className="mt-4 flex items-center gap-3">
                         <div className="bg-primary h-12 w-12 overflow-hidden rounded-full border">
-                          <img
+                          <Image
                             src={card.author.image}
                             alt={card.author.name}
                             width={48}
@@ -230,5 +231,5 @@ export default function ExpandableCards({
         ))}
       </div>
     </div>
-  )
+  );
 }

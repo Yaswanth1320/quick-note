@@ -1,6 +1,7 @@
 "use client";
 
 import { Quote } from "lucide-react";
+import Image from "next/image";
 
 export interface Testimonial {
   id: number;
@@ -83,9 +84,11 @@ export default function Testimonials({
             {/* Author */}
             <div className="mt-6 flex items-center gap-3">
               <div className="h-10 w-10 rounded-full overflow-hidden border">
-                <img
+                <Image
                   src={t.author.image}
                   alt={t.author.name}
+                  width={90}
+                  height={90}
                   className="h-full w-full object-cover"
                 />
               </div>
